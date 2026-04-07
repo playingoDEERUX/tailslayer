@@ -6,7 +6,7 @@
 
 # Tailslayer
 
-Tailslayer is a C++ library that reduces tail latency in RAM reads caused by DRAM refresh stalls. It works by replicating data across multiple different channels and waiting for a read request. Once the request comes in, it hedges the reads across the replicas, allowing the work to be performed on whichever replica access was fastest.
+Tailslayer is a C++ library that reduces tail latency in RAM reads caused by DRAM refresh stalls. It replicates data across multiple, independent DRAM channels with uncorrelated refresh schedules, using (undocumented!) channel scrambling offsets that works on AMD, Intel, and Graviton. Once the request comes in, Tailslayer issues hedged reads across all replicas, allowing the work to be performed on whichever result responds first.
 
 ## Usage
 
