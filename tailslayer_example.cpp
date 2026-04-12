@@ -21,12 +21,15 @@ template <typename T>
     // UPDATE HERE - signal
     // This is the signal that the worker will wait for
     // Once this loop completes, the read will be triggered
+    
+#if defined(__x86_64__) || defined(__i386__) // Avoid compilation errors for testers on non-x86 platforms. Read happens immediately though :)
     uint64_t starting_time_dumb = tailslayer::detail::rdtsc_lfence();
     tailslayer::detail::rdtsc_lfence();
     uint64_t num_cycles{0};
     do {
         num_cycles = tailslayer::detail::rdtsc_lfence() - starting_time_dumb;
     } while (num_cycles < 2000000000);
+#endif // x86
 
     // UPDATE HERE - index
     std::size_t index_to_read = 1; // Desired index to read (example reading the second value 0x44)

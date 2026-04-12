@@ -26,6 +26,10 @@ inline constexpr int CORE_MEAS_B = 12;
 inline constexpr int CORE_MAIN = 14;
 
 namespace detail {
+
+// These functions are really only used as timing examples for dev purposes
+// Lets you get a quick idea if you accidentally added a large amount of cycles
+#if defined(__x86_64__) || defined(__i386__)
     static inline void clflush_addr(void *addr) {
         asm volatile("clflush (%0)" :: "r"(addr) : "memory");
     }
@@ -60,6 +64,7 @@ namespace detail {
         std::this_thread::yield(); // fallback
 #endif
     }
+#endif // x86
 } // namespace detail
 
 static inline int pin_to_core(int core_id) {
